@@ -10,8 +10,10 @@ import compress from 'astro-compress';
 import { readingTimeRemarkPlugin } from './src/utils/frontmatter.mjs';
 import { SITE } from './src/config.mjs';
 import sanity from "astro-sanity";
+import vercel from "@astrojs/vercel/serverless";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const whenExternalScripts = (items = []) => SITE.googleAnalyticsId ? Array.isArray(items) ? items.map(item => item()) : [items()] : [];
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -41,12 +43,11 @@ export default defineConfig({
     js: true,
     svg: false,
     logger: 1
-  }), 
-  sanity({
+  }), sanity({
     projectId: 'g8x8c2w0',
     dataset: 'production',
     apiVersion: '2021-10-21',
-    useCdn: true,
+    useCdn: true
   })],
   vite: {
     resolve: {
@@ -54,5 +55,6 @@ export default defineConfig({
         '~': path.resolve(__dirname, './src')
       }
     }
-  }
+  },
+  adapter: vercel()
 });
