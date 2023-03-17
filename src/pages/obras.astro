@@ -1,0 +1,108 @@
+---
+
+import Layout from '~/layouts/PageLayout.astro';
+import { log } from 'astro/dist/core/logger/core';
+
+import { useSanityClient, groq } from 'astro-sanity';
+import { urlForImage } from '../image'
+
+const lenguaje = Astro.url.searchParams.get('lang') || "es"
+
+function localePath(path: string) {
+	return path + '?lang=' + lenguaje
+}
+
+const obras = {
+  en: 'Works',
+  es: 'Obras'
+}
+
+async function getWork() {
+  const query = groq `*[_type == "work"] | order(anio asc) `;
+  const posts = await useSanityClient().fetch(query);
+
+  return posts;
+}
+
+let work = await getWork()
+
+const años = getDistinctAnioValues(work)
+
+function getDistinctAnioValues(data) {
+  const anioSet = new Set();
+  
+  data.forEach(item => {
+    anioSet.add(item.anio);
+  });
+  
+  return Array.from(anioSet);
+}
+
+const añoSeleccionado = 0
+
+---
+
+
+<Layout >
+  <div class="max-w-6xl m-auto">
+    <h1 class="text-3xl m-2 lg:my-12 lg:text-6xl font-bold">{obras[lenguaje]}</h1>
+    <div class="lg:flex gap-24 mx-2">
+      <div>
+        <div class="sticky top-24">
+          {
+            años.map((año) => {
+              return (
+                <button class="block hover:underline botonAño" value={año}> {año} </button>
+              )
+            })
+          }
+        </div>
+      </div>
+      <div>
+        {
+          work.map((obra) => {
+            return (
+              <div class={'obra'} data-año={obra.anio}>
+                <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class="w-full" >
+                <h3 class="text-lg font-bold">{obra.nombre[lenguaje]}</h3>
+                <p class="">{obra.descripcion[lenguaje]}</p>
+                <hr class=" border-gray-700 my-3">
+              </div>
+            )
+          })
+        }
+      </div>
+    </div>
+  </div>
+
+</Layout>
+
+<script>
+
+
+const buttons = document.querySelectorAll('.botonAño');
+
+// Add event listeners to fire confetti when a button is clicked.
+buttons.forEach((button) => {
+  
+  button.addEventListener('click', () => cambiarAñoSeleccionado(button.value));
+});
+
+function cambiarAñoSeleccionado(año) {
+  const obras = document.querySelectorAll('.obra')
+  obras.forEach((obra) => {
+    if(obra.dataset.año == año ) {
+      obra.classList.add('block')
+      obra.classList.remove('hidden')
+    } else {
+      obra.classList.remove('block')
+      obra.classList.add('hidden')
+    }
+  })
+}
+
+cambiarAñoSeleccionado(buttons[0].value)
+  
+</script>
+
+

@@ -1,0 +1,50 @@
+---
+
+import Layout from '~/layouts/PageLayout.astro';
+import { log } from 'astro/dist/core/logger/core';
+
+import { useSanityClient, groq } from 'astro-sanity';
+import { urlForImage } from '../image'
+
+const lenguaje = Astro.url.searchParams.get('lang') || "es"
+
+function localePath(path: string) {
+	return path + '?lang=' + lenguaje
+}
+
+const contacto = {
+  en: 'Contact me',
+  es: 'Contacto'
+}
+
+
+async function getContact() {
+  const query = groq `*[_type == "contact"] `;
+  const posts = await useSanityClient().fetch(query);
+
+  return posts[0];
+}
+
+let datosContacto = await getContact()
+
+
+
+---
+
+
+<Layout >
+  <div class="max-w-6xl m-auto">
+    <h1 class="text-3xl m-2 lg:my-12 lg:text-6xl font-bold">{contacto[lenguaje]}</h1>
+    <hr class="mx-6 mt-8 mb-2">
+    <div class=" mx-2 text-xl">
+      <p>{datosContacto.texto[lenguaje]}</p>
+      <p class="mt-6">Mail: <a href={"mailto:"+datosContacto.mail} class="text-blue-400 underline "> {datosContacto.mail} </a> </p>
+      <a href={datosContacto.instagram} class="text-blue-400 underline mt-2"> Instagram </a>
+    </div>
+    <hr class="mx-6 mt-2">
+  </div>
+
+</Layout>
+
+
+
