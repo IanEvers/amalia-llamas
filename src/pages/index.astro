@@ -25,7 +25,7 @@ const verObras = {
 
 const contacto = {
   en: 'Contact',
-  es: 'contacto'
+  es: 'Contacto'
 }
 
 function colorRandom() {
@@ -65,12 +65,12 @@ const meta = {
       <img src={urlForImage(about?.imagen).url()} alt="amalia llamas" class="w-[90%] my-6 mx-auto object-cover max-h-[250px] rounded-lg">
       
       <div class="lg:flex gap-12 p-6 ">
-        <h1 class="text-3xl m-2 lg:my-12 lg:text-6xl font-bold">Amalia Llamas</h1>
+        <h1 class="text-3xl m-2 lg:my-12 lg:text-6xl font-bold">{ about?.nombre }</h1>
         <div class="lg:w-1/2 m-2 flex flex-col justify-between">
           { about?.descripcion[lenguaje]  }
           <div class="self-center mt-6 flex gap-2">
-            <a href="/obras" class="bg-blue-600 p-2 px-4 hover:bg-white hover:text-black border border-black text-center  font-medium   text-white rounded-md">Ver Obras </a>
-            <a href="/contacto" class="bg-green-500 px-4 hover:bg-white hover:text-black border border-black text-center  font-medium p-2   text-white rounded-md">Contacto </a>
+            <a href="/obras" class="bg-blue-600 p-2 px-4 hover:bg-white hover:text-black border border-black text-center  font-medium   text-white rounded-md">{verObras[lenguaje]} </a>
+            <a href="/contacto" class="bg-green-500 px-4 hover:bg-white hover:text-black border border-black text-center  font-medium p-2   text-white rounded-md">{contacto[lenguaje] } </a>
           </div>
         </div>
       </div>
