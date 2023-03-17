@@ -2,7 +2,7 @@
 const CONFIG = {
   name: 'Amalia llamas',
 
-  
+  origin: 'https://amalia-llamas.vercel.app',
   basePathname: '/',
   trailingSlash: false,
 
