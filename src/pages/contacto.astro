@@ -35,13 +35,13 @@ let datosContacto = await getContact()
 <Layout >
   <div class="max-w-6xl m-auto">
     <h1 class="text-3xl m-2 lg:my-12 lg:text-6xl font-bold">{contacto[lenguaje]}</h1>
-    <hr class="mx-6 mt-8 mb-2">
+    <hr class=" mx-6 mt-8 mb-2">
     <div class=" mx-2 text-xl">
       <p>{datosContacto.texto[lenguaje]}</p>
       <p class="mt-6">Mail: <a href={"mailto:"+datosContacto.mail} class="text-blue-400 underline "> {datosContacto.mail} </a> </p>
       <a href={datosContacto.instagram} class="text-blue-400 underline mt-2"> Instagram </a>
     </div>
-    <hr class="mx-6 mt-2">
+    <hr class=" mx-6 mt-2">
   </div>
 
 </Layout>
