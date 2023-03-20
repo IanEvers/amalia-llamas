@@ -4,8 +4,8 @@ export const headerData = {
   links: [
     {
       text: {
-        es: 'BIO',
-        en: 'BIO'
+        es: 'ARTISTA',
+        en: 'ARTIST'
       },
       href: '/',
     },
