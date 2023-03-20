@@ -58,16 +58,16 @@ const añoSeleccionado = 0
           }
         </div>
       </div>
-      <div>
+      <div class="w-full flex-1">
         {
           work.map((obra) => {
             return (
-              <div class={'obra'} data-año={obra.anio}>
-                <div class="lg:flex">
+              <div class={'obra '} data-año={obra.anio} >
+                <div class="lg:flex justify-between w-full">
                   <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class=" w-auto  max-h-[400px]" >
                   <div>
                     
-                    <h3 class="text-lg font-bold">{obra.nombre[lenguaje]}</h3>
+                    <h3 class="text-lg font-bold lg:text-right">{obra.nombre[lenguaje]}</h3>
                     <p class="">{obra.descripcion[lenguaje]}</p>
                   </div>
                   </div>
