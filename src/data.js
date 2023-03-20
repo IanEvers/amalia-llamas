@@ -12,7 +12,7 @@ export const headerData = {
     {
       text: {
         es: 'OBRAS',
-        en: 'Works'
+        en: 'WORKS'
       },
       href: '/obras',
     },
