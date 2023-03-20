@@ -63,7 +63,7 @@ const añoSeleccionado = 0
           work.map((obra) => {
             return (
               <div class={'obra'} data-año={obra.anio}>
-                <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class="w-full" >
+                <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class="w-full max-h-[400px]" >
                 <h3 class="text-lg font-bold">{obra.nombre[lenguaje]}</h3>
                 <p class="">{obra.descripcion[lenguaje]}</p>
                 <hr class=" border-gray-700 my-3">
