@@ -52,10 +52,7 @@ const meta = {
         
         <div class="lg:w-1/2 flex flex-col justify-between">
           { about?.descripcion[lenguaje]  }
-          <div class="self-center flex gap-2">
-            <a href="/obras" class="bg-blue-600 p-2 hover:bg-white hover:text-black border border-black text-center  font-medium   text-white rounded-md">{verObras[lenguaje]} </a>
-            <a href="/contacto" class="bg-green-500 hover:bg-white hover:text-black border border-black text-center  font-medium p-2   text-white rounded-md">{contacto[lenguaje] }</a>
-          </div>
+         
         </div>
         <img src={urlForImage(about?.imagen).url()} alt="amalia llamas" class="lg:w-1/2 object-cover max-h-[550px] rounded-md">
       </div>
@@ -68,10 +65,7 @@ const meta = {
         <h1 class="text-3xl m-2 lg:my-12 lg:text-6xl ">{ about?.nombre }</h1>
         <div class="lg:w-1/2 m-2 flex flex-col justify-between">
           { about?.descripcion[lenguaje]  }
-          <div class="self-center mt-6 flex gap-2">
-            <a href="/obras" class="bg-blue-600 p-2 px-4 hover:bg-white hover:text-black border border-black text-center  font-medium   text-white rounded-md">{verObras[lenguaje]} </a>
-            <a href="/contacto" class="bg-green-500 px-4 hover:bg-white hover:text-black border border-black text-center  font-medium p-2   text-white rounded-md">{contacto[lenguaje] } </a>
-          </div>
+          
         </div>
       </div>
       

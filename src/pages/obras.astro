@@ -13,8 +13,8 @@ function localePath(path: string) {
 }
 
 const obras = {
-  en: 'Works',
-  es: 'Obras'
+  en: 'WORKS',
+  es: 'OBRAS'
 }
 
 async function getWork() {
@@ -45,7 +45,7 @@ const añoSeleccionado = 0
 
 <Layout >
   <div class="max-w-6xl m-auto">
-    <h1 class="text-3xl m-2 lg:my-12 lg:text-6xl font-bold">{obras[lenguaje]}</h1>
+    <h1 class="text-3xl m-2 lg:my-12 lg:text-6xl ">{obras[lenguaje]}</h1>
     <div class="lg:flex gap-24 mx-2">
       <div>
         <div class="sticky top-24">
@@ -63,10 +63,15 @@ const añoSeleccionado = 0
           work.map((obra) => {
             return (
               <div class={'obra'} data-año={obra.anio}>
-                <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class="w-full max-h-[400px]" >
-                <h3 class="text-lg ">{obra.nombre[lenguaje]}</h3>
-                <p class="">{obra.descripcion[lenguaje]}</p>
-                <hr class=" border-gray-700 my-3">
+                <div class="lg:flex">
+                  <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class=" w-auto  max-h-[400px]" >
+                  <div>
+                    
+                    <h3 class="text-lg font-bold">{obra.nombre[lenguaje]}</h3>
+                    <p class="">{obra.descripcion[lenguaje]}</p>
+                  </div>
+                  </div>
+                  <hr class=" border-gray-700 my-3">
               </div>
             )
           })

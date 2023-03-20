@@ -4,22 +4,22 @@ export const headerData = {
   links: [
     {
       text: {
-        es: 'Bio',
-        en: 'Bio'
+        es: 'BIO',
+        en: 'BIO'
       },
       href: '/',
     },
     {
       text: {
-        es: 'Obras',
+        es: 'OBRAS',
         en: 'Works'
       },
       href: '/obras',
     },
     {
       text: {
-        es: 'Contacto',
-        en: 'Contact'
+        es: 'CONTACTO',
+        en: 'CONTACT'
       },
       href: '/contacto',
     },
