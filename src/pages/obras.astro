@@ -51,7 +51,7 @@ const añoSeleccionado = 0
       <div class="lg:mt-20">
         <div class="sticky top-24">
           {
-            años.map((año, index) => {
+            años.map((año) => {
               return (
                 <button class="block hover:underline botonAño" value={año}> {año} </button>
               )
@@ -97,9 +97,18 @@ buttons.forEach((button) => {
 function cambiarAñoSeleccionado(año) {
   const obras = document.querySelectorAll('.obra')
 
-  
+  buttons.forEach((boton) => {
+    if(boton.value == año) {
+      boton.classList.add('font-bold')
+      boton.classList.add('underline')
+    } else {
+      boton.classList.remove('font-bold')
+      boton.classList.remove('underline')
 
-  obras.forEach((button, obra) => {
+    }
+  })
+
+  obras.forEach(( obra) => {
 
     if(obra.dataset.año == año ) {
       obra.classList.add('block')
