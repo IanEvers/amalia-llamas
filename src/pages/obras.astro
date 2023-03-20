@@ -48,7 +48,7 @@ const añoSeleccionado = 0
     <h1 class="text-3xl m-2 lg:my-6 lg:text-6xl ">{obras[lenguaje]}</h1>
     <hr class=" border-gray-700 mb-3 opacity-40">
     <div class="lg:flex gap-24 mx-2 ">
-      <div class="mt-20">
+      <div class="lg:mt-20">
         <div class="sticky top-24">
           {
             años.map((año) => {
@@ -66,7 +66,7 @@ const añoSeleccionado = 0
               <div class={'obra my-20'} data-año={obra.anio} >
                 <div class="lg:flex justify-between w-full">
                   <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class=" w-auto  max-h-[400px]" >
-                  <div>
+                  <div class="lg:mr-4">
                     
                     <h3 class="text-lg font-bold lg:text-right">{obra.nombre[lenguaje]}</h3>
                     <p class="">{obra.descripcion[lenguaje]}</p>
