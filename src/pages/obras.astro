@@ -18,7 +18,7 @@ const obras = {
 }
 
 async function getWork() {
-  const query = groq `*[_type == "work"] | order(anio asc) `;
+  const query = groq `*[_type == "work"]|order(orderRank) | order(anio asc) `;
   const posts = await useSanityClient().fetch(query);
 
   return posts;
