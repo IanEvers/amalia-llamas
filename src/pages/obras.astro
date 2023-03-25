@@ -65,7 +65,7 @@ const añoSeleccionado = 0
             return (
               <div class={'obra my-20'} data-año={obra.anio} >
                 <div class="lg:flex justify-between w-full">
-                  <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class=" w-auto  max-h-[400px] max-w-[75%] pr-2" >
+                  <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class=" w-auto  max-h-[400px] lg:max-w-[75%] pr-2" >
                   <div class="lg:mr-4">
                     
                     <h3 class="text-lg font-bold lg:text-right">{obra.nombre ? obra.nombre[lenguaje] : ''}</h3>
