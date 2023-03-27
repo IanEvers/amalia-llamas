@@ -51,7 +51,7 @@ const añoSeleccionado = 0
       <div class="lg:mt-20">
         <div class="sticky top-24">
           {
-            años.map((año) => {
+            años.reverse().map((año) => {
               return (
                 <button class="block hover:underline botonAño" value={año}> {año} </button>
               )
