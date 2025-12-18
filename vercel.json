@@ -11,5 +11,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "*": {
+      "runtime": "nodejs20.x"
+    }
+  }
 }
