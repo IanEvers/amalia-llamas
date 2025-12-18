@@ -1,16 +1,11 @@
 ---
 
 import Layout from '~/layouts/PageLayout.astro';
-import { log } from 'astro/dist/core/logger/core';
 
 import { useSanityClient, groq } from 'astro-sanity';
 import { urlForImage } from '../image'
 
 const lenguaje = Astro.url.searchParams.get('lang') || "es"
-
-function localePath(path: string) {
-	return path + '?lang=' + lenguaje
-}
 
 const obras = {
   en: 'WORKS',
@@ -19,12 +14,16 @@ const obras = {
 
 async function getWork() {
   const query = groq `*[_type == "work"]|order(orderRank) | order(anio asc) `;
-  const posts = await useSanityClient().fetch(query);
-
-  return posts;
+  try {
+    const posts = await useSanityClient().fetch(query);
+    return Array.isArray(posts) ? posts : [];
+  } catch (err) {
+    console.error('Failed to fetch works from Sanity', err);
+    return [];
+  }
 }
 
-let work = await getWork()
+const work = await getWork();
 
 const años = getDistinctAnioValues(work)
 
@@ -37,8 +36,6 @@ function getDistinctAnioValues(data) {
   
   return Array.from(anioSet);
 }
-
-const añoSeleccionado = 0
 
 ---
 
@@ -60,12 +57,20 @@ const añoSeleccionado = 0
         </div>
       </div>
       <div class="w-full flex-1">
+        {work.length === 0 ? <p class="opacity-70">No hay obras para mostrar.</p> : null}
         {
           work.map((obra) => {
             return (
               <div class={'obra my-20'} data-año={obra.anio} >
                 <div class="lg:flex justify-between w-full">
-                  <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class=" w-auto  max-h-[400px] lg:max-w-[75%] pr-2" >
+                  {obra?.imagen ? (
+                    <img
+                      src={urlForImage(obra.imagen).url()}
+                      loading="lazy"
+                      alt=""
+                      class=" w-auto  max-h-[400px] lg:max-w-[75%] pr-2"
+                    />
+                  ) : null}
                   <div class="lg:mr-4">
                     
                     <h3 class="text-lg font-bold lg:text-right">{obra.nombre ? obra.nombre[lenguaje] : ''}</h3>
@@ -120,7 +125,9 @@ function cambiarAñoSeleccionado(año) {
   })
 }
 
-cambiarAñoSeleccionado(buttons[0].value)
+if (buttons.length > 0) {
+  cambiarAñoSeleccionado(buttons[0].value)
+}
   
 </script>
 

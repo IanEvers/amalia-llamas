@@ -1,16 +1,10 @@
 ---
 
 import Layout from '~/layouts/PageLayout.astro';
-import { log } from 'astro/dist/core/logger/core';
 
 import { useSanityClient, groq } from 'astro-sanity';
-import { urlForImage } from '../image'
 
 const lenguaje = Astro.url.searchParams.get('lang') || "es"
-
-function localePath(path: string) {
-	return path + '?lang=' + lenguaje
-}
 
 const contacto = {
   en: 'Contact me',
