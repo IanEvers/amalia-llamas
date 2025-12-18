@@ -42,6 +42,7 @@ export default defineConfig({
     img: false,
     js: true,
     svg: false,
+    exclude: ['**/favicon.svg'],
     logger: 1
   }), sanity({
     projectId: 'g8x8c2w0',
