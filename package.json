@@ -42,7 +42,7 @@
     "typescript": "^4.9.5"
   },
   "engines": {
-    "node": ">=20.x"
+    "node": ">=28.x"
   },
   "dependencies": {
     "@astrojs/vercel": "^3.2.1",
