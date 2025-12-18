@@ -1,16 +1,11 @@
 ---
 
 import Layout from '~/layouts/PageLayout.astro';
-import { log } from 'astro/dist/core/logger/core';
 
 import { useSanityClient, groq } from 'astro-sanity';
 import { urlForImage } from '../image'
 
 const lenguaje = Astro.url.searchParams.get('lang') || "es"
-
-function localePath(path: string) {
-	return path + '?lang=' + lenguaje
-}
 
 const obras = {
   en: 'WORKS',
@@ -19,12 +14,16 @@ const obras = {
 
 async function getWork() {
   const query = groq `*[_type == "work"]|order(orderRank) | order(anio asc) `;
-  const posts = await useSanityClient().fetch(query);
-
-  return posts;
+  try {
+    const posts = await useSanityClient().fetch(query);
+    return Array.isArray(posts) ? posts : [];
+  } catch (err) {
+    console.error('Failed to fetch works from Sanity', err);
+    return [];
+  }
 }
 
-let work = await getWork()
+const work = await getWork();
 
 const años = getDistinctAnioValues(work)
 
@@ -38,7 +37,21 @@ function getDistinctAnioValues(data) {
   return Array.from(anioSet);
 }
 
-const añoSeleccionado = 0
+function getImageSrc(imagen) {
+  if (!imagen) return null;
+
+  const assetId = imagen?.asset?._ref || imagen?.asset?._id;
+  if (assetId) {
+    return urlForImage(imagen).url();
+  }
+
+  // Fallback to Sanity upload preview image while asset is unavailable
+  if (imagen?._upload?.previewImage) {
+    return imagen._upload.previewImage;
+  }
+
+  return null;
+}
 
 ---
 
@@ -53,19 +66,31 @@ const añoSeleccionado = 0
           {
             años.reverse().map((año) => {
               return (
-                <button class="block hover:underline botonAño" value={año}> {año} </button>
+                <button class="block hover:underline botonAño" value={`${año}`}> {año} </button>
               )
             })
           }
         </div>
       </div>
       <div class="w-full flex-1">
+        {work.length === 0 ? <p class="opacity-70">No hay obras para mostrar.</p> : null}
         {
           work.map((obra) => {
+            const imagenSrc = getImageSrc(obra?.imagen);
+            const altText = (obra?.nombre && typeof obra.nombre === 'object')
+              ? obra.nombre[lenguaje] || ''
+              : '';
             return (
               <div class={'obra my-20'} data-año={obra.anio} >
                 <div class="lg:flex justify-between w-full">
-                  <img src={urlForImage(obra.imagen).url()} loading="lazy" alt="" class=" w-auto  max-h-[400px] lg:max-w-[75%] pr-2" >
+                  {imagenSrc ? (
+                    <img
+                      src={imagenSrc}
+                      loading="lazy"
+                      alt={altText}
+                      class=" w-auto  max-h-[400px] lg:max-w-[75%] pr-2"
+                    />
+                  ) : null}
                   <div class="lg:mr-4">
                     
                     <h3 class="text-lg font-bold lg:text-right">{obra.nombre ? obra.nombre[lenguaje] : ''}</h3>
@@ -86,16 +111,29 @@ const añoSeleccionado = 0
 <script>
 
 
-const buttons = document.querySelectorAll('.botonAño');
+let buttons = document.querySelectorAll<HTMLButtonElement>('.botonAño');
 
-// Add event listeners to fire confetti when a button is clicked.
-buttons.forEach((button) => {
-  
-  button.addEventListener('click', () => cambiarAñoSeleccionado(button.value));
-});
+function initYearSelection() {
+  buttons = document.querySelectorAll<HTMLButtonElement>('.botonAño');
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => cambiarAñoSeleccionado(button.value));
+  });
+
+  if (buttons.length > 0) {
+    console.log(buttons);
+    // Select the first year by default on page load
+    if (buttons[0].value && buttons[0].value !== 'undefined') {
+      console.log(buttons[0].value);
+      cambiarAñoSeleccionado(buttons[0].value);
+    } else {
+      console.log(buttons[1].value);
+      cambiarAñoSeleccionado(buttons[1].value);
+    }
+  }
+}
 
 function cambiarAñoSeleccionado(año) {
-  const obras = document.querySelectorAll('.obra')
+  const obras = document.querySelectorAll<HTMLElement>('.obra')
 
   buttons.forEach((boton) => {
     if(boton.value == año) {
@@ -120,7 +158,12 @@ function cambiarAñoSeleccionado(año) {
   })
 }
 
-cambiarAñoSeleccionado(buttons[0].value)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initYearSelection);
+} else {
+  buttons = document.querySelectorAll<HTMLButtonElement>('.botonAño');
+  initYearSelection();
+}
   
 </script>
 
